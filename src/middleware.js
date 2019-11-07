@@ -2,94 +2,106 @@
 
 let smooch = function (options) {
     let smoochOptObj    = {
-        200:function (message) {
+        200:function (message,customMessage) {
 
             message.success = {
                 code:200,
-                message:"The request has succeeded"
             };
+            customMessage?message.success.message = customMessage:message.success.message = "The request has succeeded";
 
         },
-        201:function (message) {
+        201:function (message,customMessage) {
             message.success = {
                 code:201,
-                message:"The request has succeeded and a new resource has been created as a result. "
             };
+            customMessage?message.success.message = customMessage:message.success.message = "The request has succeeded and a new resource has been created as a result. ";
 
         },
-        202:function (message) {
+        202:function (message,customMessage) {
             message.success = {
                 code:202,
-                message:"The request has been received but not yet acted upon"
             };
+            customMessage?message.success.message = customMessage:message.success.message = "The request has been received but not yet acted upon";
         },
-        203:function (message) {
+        203:function (message,customMessage) {
             message.success = {
                 code:203,
-                message:"The returned meta-information is not exactly the same as is available from the origin server"
-            }
+            };
+            customMessage?message.success.message = customMessage:message.success.message = "The returned meta-information is not exactly the same as is available from the origin server";
+
         },
-        204:function (message) {
+        204:function (message,customMessage) {
             message.success = {
                 code:204,
-                message:"There is no content to send for this request, but the headers may be useful"
             };
+            customMessage?message.success.message = customMessage:message.success.message = "There is no content to send for this request, but the headers may be useful";
         },
-        205:function (message) {
+        205:function (message,customMessage) {
             message.success = {
                 code:205,
-                message:"Reset the document which sent this request"
             };
+            customMessage?message.success.message = customMessage:message.success.message = "Reset the document which sent this request";
+
         },
-        206:function (message) {
+        206:function (message,customMessage) {
             message.success = {
                 code:206,
-                message:" Range header is sent from the client to request only part of a resource."
             };
+            customMessage?message.success.message = customMessage:message.success.message = " Range header is sent from the client to request only part of a resource."
+
         },
-        300:function (message,newUrl,customMessage) {
-            message.success = {
+        300:function (message,{newUrl,customMessage,otherUrls}) {
+            if (!Array.isArray(otherUrls)){
+                throw new Error('Provide an array of possible uris for the request');
+            }
+            message.redirect = {
                 code:300,
-                message:"Multiple Choice"
+                links:otherUrls,
             };
+            customMessage?message.redirect.message = customMessage:message.redirect.message = "Multiple Choice";
         },
-        301:function (message,newUrl,customMessage) {
+        301:function (message,{newUrl,customMessage}) {
             if (!newUrl){
                 throw new Error('The new uri for this resource was not given');
             }
             message.redirect = {
                 code:301,
-                message:"The URL of the requested resource has been changed permanently. "
             };
+            customMessage?message.redirect.message = customMessage:message.redirect.message = "The URL of the requested resource has been changed permanently. "
+
         },
-        302:function (message,newUrl,customMessage) {
+        302:function (message,{newUrl,customMessage}) {
             message.redirect = {
                 code:302,
-                message:"The URI of requested resource has been changed temporarily. "
             };
+            customMessage?message.redirect.message = customMessage:message.redirect.message = "The URI of requested resource has been changed temporarily. ";
         },
-        303:function (message,newUrl,customMessage) {
+        303:function (message,{newUrl,customMessage}) {
             if (!newUrl){
                 throw new Error('The redirect uri for this resource was not given');
             }
             message.redirect = {
                 code:303,
-                message:"The URI of requested resource has been changed temporarily. "
+                uri:newUrl,
             };
+            customMessage?message.redirect.message = customMessage:message.redirect.message = " Get the requested resource at another URI with a GET request.";
+
         },
-        304:function (message,newUrl,customMessage) {
+        304:function (message,{newUrl,customMessage}) {
             message.redirect = {
                 code:304,
-                message:"The response has not been modified."
             };
+            customMessage?message.redirect.message = customMessage:message.redirect.message = "The response has not been modified.";
+
         },
-        307:function (message,newUrl,customMessage) {
+        307:function (message,{newUrl,customMessage}) {
             message.success = {
                 code:307,
                 message:" Temporary Redirect"
             };
+            customMessage?message.redirect.message = customMessage:'';
         },
-        308:function (message,newUrl,req,customMessage) {
+        308:function (message,{newUrl,req,customMessage}) {
             if (!newUrl){
                 throw new Error('The redirect uri was not given');
             }
@@ -98,6 +110,8 @@ let smooch = function (options) {
                 code:307,
                 message:" Temporary Redirect"
             };
+            customMessage?message.redirect.message = customMessage:'';
+
         },
         400:function (message,customMessage) {
             message.error = {
@@ -260,37 +274,83 @@ let smooch = function (options) {
             //Ability to take in custom messages
             customMessage?message.error.message = customMessage:message.error.message = "The user-agent requested a resource that cannot legally be provided.";
         },
-        500:function () {
-            
+        500:function (message,customMessage) {
+            message.error = {
+                code:500,
+                message:"The server has encountered a situation it doesn't know how to handle."
+            };
+            //Ability to take in custom messages
+            customMessage?message.error.message = customMessage:'';
         },
-        501:function () {
-            
+        501:function  (message,customMessage) {
+            message.error = {
+                code:501,
+                message:"The request method is not supported by the server and cannot be handled."
+            };
+            //Ability to take in custom messages
+            customMessage?message.error.message = customMessage:'';
         },
-        502:function () {
+        502:function (message,customMessage) {
+            message.error = {
+                code:502,
+                message:"The request method is not supported by the server and cannot be handled."
+            };
+            //Ability to take in custom messages
+            customMessage?message.error.message = customMessage:'';
+        },
+        503:function (message,customMessage) {
+            message.error = {
+                code:503,
+                message:"The server is not ready to handle the request. Common causes are a server that is down for maintenance or that is overloaded. "
+            };
+            //Ability to take in custom messages
+            customMessage?message.error.message = customMessage:'';
+        },
+        504:function (message,customMessage) {
+            message.error = {
+                code:504,
+                message:"This error response is given when the server is acting as a gateway and cannot get a response in time."
+            };
+            //Ability to take in custom messages
+            customMessage?message.error.message = customMessage:'';
 
         },
-        503:function () {
+        505:function (message,customMessage) {
+            message.error = {
+                code:505,
+                message:"The HTTP version used in the request is not supported by the server."
+            };
+            //Ability to take in custom messages
+            customMessage?message.error.message = customMessage:'';
+        },
+        506:function (message,customMessage) {
+            message.error = {
+                code:506,
+                message:"The server has an internal configuration error."
+            };
+            //Ability to take in custom messages
+            customMessage?message.error.message = customMessage:'';
 
         },
-        504:function () {
+        507:function (message,customMessage){
+            message.error = {
+                code:507,
+                message:"The server has an internal configuration error."
+            };
+            //Ability to take in custom messages
+            customMessage?message.error.message = customMessage:'';
 
         },
-        505:function () {
-
-        },
-        506:function () {
-
-        },
-        507:function () {
-
-        },
-        508:function () {
-
-        },
-        511:function () {
+        511:function (message,customMessage){
+            message.error = {
+                code:502,
+                message:"Authentication needed to gain network access. "
+            };
+            //Ability to take in custom messages
+            customMessage?message.error.message = customMessage:'';
 
         }
-    }
+    };
 
     let smoochOptions   = Object.assign((options||{}), smoochOptObj);
 
@@ -342,11 +402,11 @@ let smooch = function (options) {
                 return this;
             },
 
-            withRedirect:function (code,{uri,customMessage}) {
+            withRedirect:function (code,{newUrl,customMessage,}) {
                 try{
                     if (code >= 300 && code <= 399){
 
-                        smoochOptions[code](message,uri,customMessage);
+                        smoochOptions[code](message,{newUrl,customMessage,req});
                     }else {
                         throw new Error('Not a redirect code');
                     }
@@ -414,9 +474,10 @@ let smooch = function (options) {
 
                 }
             },
-            reply:function () {
+            reply:function (callback) {
 
-                message.success?res.status(message.success.code).json(message):res.status(message.error.code).json(message);
+             res.status(message.success.code||message.redirect.code||message.error.code).json(message);
+                callback();
                 return;
             }
 
