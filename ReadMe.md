@@ -13,6 +13,11 @@ This is a express middleware that standardizes api responses across your applica
   });`
 <br><br>
 
+<h5>Options</h5>
+<small>DataType:Object</small><br/>
+Extends the in-built status code functions.
+
+
 <h4>Methods</h4>
 
 <h5>.withSuccess(statusCode[,message])</h5>
@@ -51,4 +56,12 @@ Every api response request must end with a reply method.
 This doesn't take any parameter and failure to chain this method to the response would prevent a response from being sent back
 
 
+<h5>Writing your own Apinizer  functions</h5>
+Apinizer gives you to freedom to write your own response function
+This example illustrate how to write your own Apinizer function
 
+`let customFunctions = {
+        200:function(message,customMessage){
+            //return the message object or customMessage object
+        }
+}`
