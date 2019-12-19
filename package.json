@@ -1,12 +1,16 @@
 {
   "name": "apinizer",
   "version": "1.0.0",
-  "description": "",
+  "description": "<h1>Express Apinizer</h1>",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
-  "author": "",
-  "license": "ISC"
+  "author": "Chiemeke Ifeanyi",
+  "license": "ISC",
+  "devDependencies": {
+    "chai": "^4.2.0",
+    "mocha": "^6.2.2"
+  }
 }
