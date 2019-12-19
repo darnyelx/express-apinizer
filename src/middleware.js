@@ -430,50 +430,50 @@ let smooch = function (options) {
                 return this;
             },
 
-            withPagination: function(){
-
-
-                if (message.success.data){
-
-
-                    // Protect your data at all cost
-                    let lastId = null;
-                    try{
-                        lastId      = message.success.data[message.success.data.length - 1].id;
-
-                    }catch (e) {
-                        console.log(e);
-                    }
-
-
-                    let payLoad       = {data:lastId};
-                    let newToken;
-
-                    //Implement JWT
-                    var privateKey = fs.readFileSync('jwt_pk.key','utf8');
-
-                    return new Promise((resolve,reject)=>{
-
-                        jwt.sign(payLoad,privateKey, { expiresIn: '2h',algorithm: 'RS256' },   (err,code)=> {
-
-                            if (err){
-
-                                reject(err)
-                            }else{
-
-                                newToken = code;
-                                message.success.pagination = {
-                                    prevPageToken : req.query.pagination?req.query.pagination.nextPageToken:undefined,
-                                    nextPageToken : newToken
-                                };
-                                resolve(this);
-                            }
-                        });
-
-                    });
-
-                }
-            },
+            // withPagination: function(){
+            //
+            //
+            //     if (message.success.data){
+            //
+            //
+            //         // Protect your data at all cost
+            //         let lastId = null;
+            //         try{
+            //             lastId      = message.success.data[message.success.data.length - 1].id;
+            //
+            //         }catch (e) {
+            //             console.log(e);
+            //         }
+            //
+            //
+            //         let payLoad       = {data:lastId};
+            //         let newToken;
+            //
+            //         //Implement JWT
+            //         var privateKey = fs.readFileSync('jwt_pk.key','utf8');
+            //
+            //         return new Promise((resolve,reject)=>{
+            //
+            //             jwt.sign(payLoad,privateKey, { expiresIn: '2h',algorithm: 'RS256' },   (err,code)=> {
+            //
+            //                 if (err){
+            //
+            //                     reject(err)
+            //                 }else{
+            //
+            //                     newToken = code;
+            //                     message.success.pagination = {
+            //                         prevPageToken : req.query.pagination?req.query.pagination.nextPageToken:undefined,
+            //                         nextPageToken : newToken
+            //                     };
+            //                     resolve(this);
+            //                 }
+            //             });
+            //
+            //         });
+            //
+            //     }
+            // },
             reply:function (callback) {
 
              res.status(message.success.code||message.redirect.code||message.error.code).json(message);
@@ -485,22 +485,22 @@ let smooch = function (options) {
 
 
 
-        let paginationHelper = {
-            paginate:  function (colomn) {
-
-
-                let payload =  jwtVerifier(req.query.paginationToken)||null;
-                if (payload) {
-                    let x = req.query.q = {
-                        [colomn||'id']:{
-                            [Op.gt]: payload.data
-                        }
-                    }
-
-
-                }
-            }
-        };
+        // let paginationHelper = {
+        //     paginate:  function (colomn) {
+        //
+        //
+        //         let payload =  jwtVerifier(req.query.paginationToken)||null;
+        //         if (payload) {
+        //             let x = req.query.q = {
+        //                 [colomn||'id']:{
+        //                     [Op.gt]: payload.data
+        //                 }
+        //             }
+        //
+        //
+        //         }
+        //     }
+        // };
         Object.assign(res,smoochObj);
         Object.assign(req,paginationHelper);
 
