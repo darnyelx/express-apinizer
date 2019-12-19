@@ -22,11 +22,11 @@ This method is used to send a success response back to endpoint.
 <small><b>message</b> (optional): <b>Datatype:string</b>? A custom message detailing the what the success is about. </small>  
 
 <h5>.withData(data)</h5>
-This method is used to attach data to the success message with the Success message
+This method is used to attach an error data to the error data object.
+This method is used alongside withClientError method or withServerError method
  
 <h6>Parameters</h6>
-<small><b>statusCode</b> (compulsory): <b>Datatype:integer</b>? Takes an integer between 200-299</small>
-<small><b>message</b> (optional): <b>Datatype:string</b>? A custom message detailing the what the success is about. </small>  
+<small><b>data</b> (compulsory): This can be any datatype except `null` </small>
 
 <h5>.withClientError(statusCode[,message])</h5>
 This method is used to send a client response back to endpoint. 
@@ -45,3 +45,10 @@ This method is used to attach an error data to the error data object.
 This method is used alongside withClientError method or withServerError method
 <h6>Parameters</h6>
 <small><b>data</b> (compulsory): This can be any datatype except `null` </small>
+
+<h5>.reply()</h5>
+Every api response request must end with a reply method.
+This doesn't take any parameter and failure to chain this method to the response would prevent a response from being sent back
+
+
+
