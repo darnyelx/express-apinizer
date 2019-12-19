@@ -15,33 +15,33 @@ This is a express middleware that standardizes api responses across your applica
 
 <h4>Methods</h4>
 
-<table>
-    <thead>
-        <tr>
-            <td>s/n</td>
-            <td>Method</td>
-            <td>Parameters</td>
-            <td>Info</td>
-        </tr>
-    </thead>
-    <tbody>
-        <tr>
-            <td>1</td>
-            <td>withSuccess(statusCode,customMessage)</td>
-            <td>
-                    <p><b>statusCode(required):</b> Supply any success http code. Failure to add a status codes throws a no method supplied error </p>
-                    <p><b>customMessage(optional):</b> Failure to add a status codes throws a no method supplied error </p>
-            </td>
-            <td>
-                <p>This method is used when the request has succeeded with no error</p>
-            </td>
-        </tr>
-        <tr>
-                    <td>2</td>
-                    <td>withServerError(statusCode,customMessage)</td>
-                    <td>
-                            <p><b>Status Code(required):</b> Failure to add a status codes throws a no method supplied error </p>
-                    </td>
-         </tr>
-    </tbody>
-</table>
+<h5>.withSuccess(statusCode[,message])</h5>
+This method is used to send a success response back to endpoint. 
+<h6>Parameters</h6>
+<small><b>statusCode</b> (compulsory): <b>Datatype:integer</b>? Takes an integer between 200-299</small>
+<small><b>message</b> (optional): <b>Datatype:string</b>? A custom message detailing the what the success is about. </small>  
+
+<h5>.withData(data)</h5>
+This method is used to attach data to the success message with the Success message
+ 
+<h6>Parameters</h6>
+<small><b>statusCode</b> (compulsory): <b>Datatype:integer</b>? Takes an integer between 200-299</small>
+<small><b>message</b> (optional): <b>Datatype:string</b>? A custom message detailing the what the success is about. </small>  
+
+<h5>.withClientError(statusCode[,message])</h5>
+This method is used to send a client response back to endpoint. 
+<h6>Parameters</h6>
+<small><b>statusCode</b> (compulsory): <b>Datatype:integer</b>? Takes an integer between 400-499</small>
+<small><b>message</b> (optional): <b>Datatype:string</b>? A custom message detailing what the error is about. </small>  
+
+<h5>.withServerError(statusCode[,message])</h5>
+This method is used to send a server response back to endpoint. 
+<h6>Parameters</h6>
+<small><b>statusCode</b> (compulsory): <b>Datatype:integer</b>? Takes an integer between 500-599</small>
+<small><b>message</b> (optional): <b>Datatype:string</b>? A custom message detailing the what the success is about. </small>  
+
+<h5>.withErrorData(data)</h5>
+This method is used to attach an error data to the error data object.
+This method is used alongside withClientError method or withServerError method
+<h6>Parameters</h6>
+<small><b>data</b> (compulsory): This can be any datatype except `null` </small>

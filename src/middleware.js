@@ -87,32 +87,32 @@ let smooch = function (options) {
             customMessage?message.redirect.message = customMessage:message.redirect.message = " Get the requested resource at another URI with a GET request.";
 
         },
-        304:function (message,{newUrl,customMessage}) {
-            message.redirect = {
-                code:304,
-            };
-            customMessage?message.redirect.message = customMessage:message.redirect.message = "The response has not been modified.";
-
-        },
-        307:function (message,{newUrl,customMessage}) {
-            message.success = {
-                code:307,
-                message:" Temporary Redirect"
-            };
-            customMessage?message.redirect.message = customMessage:'';
-        },
-        308:function (message,{newUrl,req,customMessage}) {
-            if (!newUrl){
-                throw new Error('The redirect uri was not given');
-            }
-            req.location(newUrl);
-            message.success = {
-                code:307,
-                message:" Temporary Redirect"
-            };
-            customMessage?message.redirect.message = customMessage:'';
-
-        },
+        // 304:function (message,{newUrl,customMessage}) {
+        //     message.redirect = {
+        //         code:304,
+        //     };
+        //     customMessage?message.redirect.message = customMessage:message.redirect.message = "The response has not been modified.";
+        //
+        // },
+        // 307:function (message,{newUrl,customMessage}) {
+        //     message.success = {
+        //         code:307,
+        //         message:" Temporary Redirect"
+        //     };
+        //     customMessage?message.redirect.message = customMessage:'';
+        // },
+        // 308:function (message,{newUrl,req,customMessage}) {
+        //     if (!newUrl){
+        //         throw new Error('The redirect uri was not given');
+        //     }
+        //     req.location(newUrl);
+        //     message.success = {
+        //         code:308,
+        //         message:" Temporary Redirect"
+        //     };
+        //     customMessage?message.redirect.message = customMessage:'';
+        //
+        // },
         400:function (message,customMessage) {
             message.error = {
                 code:400
